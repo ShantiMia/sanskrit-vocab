@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanskrit Study Cards</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .chapter-selector {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        select {
+            padding: 10px 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 25px;
+            font-size: 1.1em;
+            background: white;
+            cursor: pointer;
+        }
+        select:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .flashcard {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            cursor: pointer;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .flashcard:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+        .flashcard::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #007bff, #28a745, #ffc107, #dc3545);
+        }
+        .sanskrit-front {
+            font-size: 3.5em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Noto Sans Devanagari', serif;
+        }
+        .click-hint {
+            color: #6c757d;
+            font-style: italic;
+            font-size: 1.1em;
+            margin-top: 20px;
+        }
+        .card-back {
+            text-align: left;
+        }
+        .english-meaning {
+            font-size: 2.2em;
+            color: #2c3e50;
+            font-weight: bold;
+            margin-bottom: 25px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 15px;
+        }
+        .grammar-info {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .grammar-type {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .verb-type { background: #d4edda; color: #155724; }
+        .noun-type { background: #cce5ff; color: #004085; }
+        .prep-type { background: #fff3cd; color: #856404; }
+        .pronoun-type { background: #f8d7da; color: #721c24; }
+        .particle-type { background: #e2e3e5; color: #383d41; }
+        .grammar-details {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #495057;
+        }
+        .third-person {
+            background: #e3f2fd;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-top: 10px;
+            border-left: 4px solid #2196f3;
+        }
+        .third-person .sanskrit {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #1976d2;
+            font-family: 'Noto Sans Devanagari', serif;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+        }
+        button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,123,255,0.4);
+        }
+        .btn-success { background: #28a745; }
+        .btn-warning { background: #ffc107; color: black; }
+        .btn-secondary { background: #6c757d; }
+        .progress {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.2em;
+            color: #495057;
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .input-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-family: monospace;
+            font-size: 1em;
+            resize: vertical;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+        .format-example {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-left: 4px solid #2196f3;
+        }
+        .hidden { display: none; }
+        .chapter-stats {
+            background: #fff;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+            color: #6c757d;
+        }
+        @media (max-width: 600px) {
+            .sanskrit-front { font-size: 2.5em; }
+            .english-meaning { font-size: 1.8em; }
+            .container { padding: 20px; }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>🕉️ Sanskrit Study Cards</h1>
+        
+        <div id="inputSection" class="input-section">
+            <h3>Add Your Sanskrit Vocabulary</h3>
+            <div class="format-example">
+                <strong>Format for each word:</strong><br>
+                <code>Sanskrit,English,Type,Chapter</code><br><br>
+                <strong>Type examples:</strong><br>
+                • <code>Class 1 verb, 3rd person: गच्छति</code><br>
+                • <code>masculine noun</code><br>
+                • <code>preposition, governs accusative</code><br>
+                • <code>pronoun, nominative</code>
+            </div>
+            <textarea id="vocabInput" placeholder="अहम्,I,pronoun,Chapter 1
+त्वम्,you,pronoun,Chapter 1
+गच्छति,goes,Class 1 verb; 3rd person: गच्छति,Chapter 1
+ग्रामः,village,masculine noun,Chapter 2
+नगरम्,city,neuter noun,Chapter 2
+अधि,over/above,preposition; governs accusative,Chapter 3"></textarea>
+            <div style="margin-top: 15px;">
+                <button onclick="loadVocab()">Create Study Cards</button>
+                <button class="btn-success" onclick="loadSample()">Load All 182 Words</button>
+                <button class="btn-warning" onclick="loadBasicSample()">Try Basic Sample</button>
+            </div>
+        </div>
+
+        <div id="flashcardSection" class="hidden">
+            <div class="chapter-selector">
+                <label for="chapterSelect"><strong>Select Chapter:</strong></label>
+                <select id="chapterSelect" onchange="changeChapter()">
+                    <option value="all">All Chapters</option>
+                </select>
+                <div class="chapter-stats" id="chapterStats"></div>
+            </div>
+            
+            <div class="progress">
+                <div>Card <span id="currentNum">1</span> of <span id="totalNum">0</span></div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+            </div>
+            
+            <div class="flashcard" id="flashcard" onclick="flipCard()">
+                <div id="frontSide">
+                    <div class="sanskrit-front" id="sanskritText">गच्छति</div>
+                    <div class="click-hint">Click to see meaning & grammar</div>
+                </div>
+                
+                <div id="backSide" class="card-back hidden">
+                    <div class="english-meaning" id="englishText">goes</div>
+                    <div class="grammar-info">
+                        <div class="grammar-type verb-type" id="grammarType">Class 1 Verb</div>
+                        <div class="grammar-details" id="grammarDetails">
+                            <div class="third-person">
+                                3rd person singular: <span class="sanskrit">गच्छति</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button onclick="prevCard()">← Previous</button>
+                <button class="btn-warning" onclick="flipCard()">Flip Card</button>
+                <button onclick="nextCard()">Next →</button>
+            </div>
+
+            <div class="controls">
+                <button class="btn-success" onclick="shuffle()">Shuffle Cards</button>
+                <button class="btn-secondary" onclick="showInput()">Add More Words</button>
+                <button onclick="resetCards()">Start Over</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let allVocabulary = [];
+        let currentVocabulary = [];
+        let currentIndex = 0;
+        let isFlipped = false;
+        let chapters = [];
+
+        const sampleVocab = [
+            // Lesson 1 - Nouns
+            { sanskrit: 'भक्तः', english: 'devotee', type: 'masculine noun', chapter: 'Lesson 1' },
+            { sanskrit: 'बीजम्', english: 'seed', type: 'neuter noun', chapter: 'Lesson 1' },
+            { sanskrit: 'लक्ष्मणः', english: 'Laksmana', type: 'masculine noun', chapter: 'Lesson 1' },
+            { sanskrit: 'मेघः', english: 'cloud', type: 'masculine noun', chapter: 'Lesson 1' },
+            { sanskrit: 'मृगः', english: 'deer', type: 'masculine noun', chapter: 'Lesson 1' },
+            { sanskrit: 'मूर्खः', english: 'fool', type: 'masculine noun', chapter: 'Lesson 1' },
+            { sanskrit: 'व्याघ्रः', english: 'tiger', type: 'masculine noun', chapter: 'Lesson 1' },
+            { sanskrit: 'वृकः', english: 'wolf', type: 'masculine noun', chapter: 'Lesson 1' },
+            { sanskrit: 'वृक्षः', english: 'tree', type: 'masculine noun', chapter: 'Lesson 1' },
+            
+            // Lesson 2 - Class 1 Verbs
+            { sanskrit: 'भ्रमति', english: 'to walk, wander, roam about', type: 'Class 1 verb; 3rd person: भ्रमति', chapter: 'Lesson 2' },
+            { sanskrit: 'भवति', english: 'to be, become', type: 'Class 1 verb; 3rd person: भवति', chapter: 'Lesson 2' },
+            { sanskrit: 'बोधति', english: 'to know', type: 'Class 1 verb; 3rd person: बोधति', chapter: 'Lesson 2' },
+            { sanskrit: 'चलति', english: 'to move', type: 'Class 1 verb; 3rd person: चलति', chapter: 'Lesson 2' },
+            { sanskrit: 'चरति', english: 'to move', type: 'Class 1 verb; 3rd person: चरति', chapter: 'Lesson 2' },
+            { sanskrit: 'हसति', english: 'to burn', type: 'Class 1 verb; 3rd person: हसति', chapter: 'Lesson 2' },
+            { sanskrit: 'धावति', english: 'to run', type: 'Class 1 verb; 3rd person: धावति', chapter: 'Lesson 2' },
+            { sanskrit: 'द्रवति', english: 'to run, to melt', type: 'Class 1 verb; 3rd person: द्रवति', chapter: 'Lesson 2' },
+            { sanskrit: 'जयति', english: 'to conquer', type: 'Class 1 verb; 3rd person: जयति', chapter: 'Lesson 2' },
+            { sanskrit: 'जीवति', english: 'to live', type: 'Class 1 verb; 3rd person: जीवति', chapter: 'Lesson 2' },
+            { sanskrit: 'खादति', english: 'to eat', type: 'Class 1 verb; 3rd person: खादति', chapter: 'Lesson 2' },
+            { sanskrit: 'खनति', english: 'to dig', type: 'Class 1 verb; 3rd person: खनति', chapter: 'Lesson 2' },
+            { sanskrit: 'क्रीडति', english: 'to play', type: 'Class 1 verb; 3rd person: क्रीडति', chapter: 'Lesson 2' },
+            { sanskrit: 'कर्षति', english: 'to draw, to pull', type: 'Class 1 verb; 3rd person: कर्षति', chapter: 'Lesson 2' },
+            { sanskrit: 'नमति', english: 'to salute', type: 'Class 1 verb; 3rd person: नमति', chapter: 'Lesson 2' },
+            { sanskrit: 'नयति', english: 'to lead', type: 'Class 1 verb; 3rd person: नयति', chapter: 'Lesson 2' },
+            { sanskrit: 'पचति', english: 'to cook', type: 'Class 1 verb; 3rd person: पचति', chapter: 'Lesson 2' },
+            { sanskrit: 'पतति', english: 'to fall', type: 'Class 1 verb; 3rd person: पतति', chapter: 'Lesson 2' },
+            { sanskrit: 'रक्षति', english: 'to protect', type: 'Class 1 verb; 3rd person: रक्षति', chapter: 'Lesson 2' },
+            { sanskrit: 'रोहति', english: 'to grow', type: 'Class 1 verb; 3rd person: रोहति', chapter: 'Lesson 2' },
+            { sanskrit: 'शंसति', english: 'to praise', type: 'Class 1 verb; 3rd person: शंसति', chapter: 'Lesson 2' },
+            { sanskrit: 'स्मरति', english: 'to remember', type: 'Class 1 verb; 3rd person: स्मरति', chapter: 'Lesson 2' },
+            { sanskrit: 'सरति', english: 'to go', type: 'Class 1 verb; 3rd person: सरति', chapter: 'Lesson 2' },
+            { sanskrit: 'त्यजति', english: 'to abandon', type: 'Class 1 verb; 3rd person: त्यजति', chapter: 'Lesson 2' },
+            { sanskrit: 'वदति', english: 'to speak', type: 'Class 1 verb; 3rd person: वदति', chapter: 'Lesson 2' },
+            { sanskrit: 'वहति', english: 'to carry, to flow', type: 'Class 1 verb; 3rd person: वहति', chapter: 'Lesson 2' },
+            { sanskrit: 'वपति', english: 'to sow', type: 'Class 1 verb; 3rd person: वपति', chapter: 'Lesson 2' },
+            { sanskrit: 'वसति', english: 'to dwell', type: 'Class 1 verb; 3rd person: वसति', chapter: 'Lesson 2' },
+            { sanskrit: 'व्रजति', english: 'to go', type: 'Class 1 verb; 3rd person: व्रजति', chapter: 'Lesson 2' },
+            { sanskrit: 'यजति', english: 'to worship', type: 'Class 1 verb; 3rd person: यजति', chapter: 'Lesson 2' },
+            
+            // Lesson 3 - Prepositions and Nouns
+            { sanskrit: 'अभि', english: 'near', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'आचारः', english: 'conduct', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'अन्तरा', english: 'between', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'अन्तरेण', english: 'without', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'अन्नम्', english: 'food', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'अश्वः', english: 'horse', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'अति', english: 'above', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'बालः', english: 'boy', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'दासः', english: 'servant', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'देशः', english: 'country', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'धिक्', english: 'fie upon', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'दुःखम्', english: 'misery', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'ग्रामः', english: 'village', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'इन्धनम्', english: 'fuel', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'जलम्', english: 'water', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'जरः', english: 'person', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'काकः', english: 'crow', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'कमलम्', english: 'lotus', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'कनकम्', english: 'gold', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'कपोतः', english: 'pigeon', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'करः', english: 'hand', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'मेधः', english: 'cloud', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'नरः', english: 'man', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'निकषा', english: 'near', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'नृपः', english: 'king', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'परितः', english: 'around', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'पर्वतः', english: 'mountain', type: 'masculine noun', chapter: 'Lesson 3' },
+            { sanskrit: 'पत्रम्', english: 'leaf', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'पात्रम्', english: 'vessel', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'फलम्', english: 'fruit', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'समया', english: 'near', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'सर्वतः', english: 'on all sides', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'शरीरम्', english: 'body', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'शास्त्रम्', english: 'sacred precept', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'शीलम्', english: 'character', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'स्थानम्', english: 'place', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'सुखम्', english: 'happiness', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'तृणम्', english: 'grass', type: 'neuter noun', chapter: 'Lesson 3' },
+            { sanskrit: 'उभयतः', english: 'on both sides', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'विना', english: 'without', type: 'preposition; governs accusative', chapter: 'Lesson 3' },
+            { sanskrit: 'वृक्षः', english: 'tree', type: 'masculine noun', chapter: 'Lesson 3' },
+            
+            // Lesson 4 - Class 4 Verbs and more
+            { sanskrit: 'अस्यति', english: 'to throw', type: 'Class 4 verb; 3rd person: अस्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'भ्राम्यति', english: 'to roam, to err', type: 'Class 4 verb; 3rd person: भ्राम्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'भ्रश्यति', english: 'to fall', type: 'Class 4 irregular verb; 3rd person: भ्रश्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'च', english: 'and', type: 'particle', chapter: 'Lesson 4' },
+            { sanskrit: 'चन्द्रः', english: 'moon', type: 'masculine noun', chapter: 'Lesson 4' },
+            { sanskrit: 'दशति', english: 'to bite', type: 'Class 1 irregular verb; 3rd person: दशति', chapter: 'Lesson 4' },
+            { sanskrit: 'धमति', english: 'to blow', type: 'Class 1 irregular verb; 3rd person: धमति', chapter: 'Lesson 4' },
+            { sanskrit: 'धनम्', english: 'wealth', type: 'neuter noun', chapter: 'Lesson 4' },
+            { sanskrit: 'दीव्यति', english: 'to play', type: 'Class 4 irregular verb; 3rd person: दीव्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'पश्यति', english: 'to see', type: 'Class 1 irregular verb; 3rd person: पश्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'गजः', english: 'elephant', type: 'masculine noun', chapter: 'Lesson 4' },
+            { sanskrit: 'गच्छति', english: 'to go', type: 'Class 1 irregular verb; 3rd person: गच्छति', chapter: 'Lesson 4' },
+            { sanskrit: 'जिघ्रति', english: 'to smell', type: 'Class 1 irregular verb; 3rd person: जिघ्रति', chapter: 'Lesson 4' },
+            { sanskrit: 'गूहति', english: 'to hide', type: 'Class 1 verb; 3rd person: गूहति', chapter: 'Lesson 4' },
+            { sanskrit: 'हरति', english: 'to take away', type: 'Class 1 verb; 3rd person: हरति', chapter: 'Lesson 4' },
+            { sanskrit: 'हृदः', english: 'lake', type: 'neuter noun', chapter: 'Lesson 4' },
+            { sanskrit: 'जीवनम्', english: 'life', type: 'neuter noun', chapter: 'Lesson 4' },
+            { sanskrit: 'क्षाम्यति', english: 'to forgive', type: 'Class 4 verb; 3rd person: क्षाम्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'कूपः', english: 'well', type: 'masculine noun', chapter: 'Lesson 4' },
+            { sanskrit: 'कुसुमम्', english: 'flower', type: 'neuter noun', chapter: 'Lesson 4' },
+            { sanskrit: 'माद्याती', english: 'to rejoice, to be glad', type: 'Class 4 irregular verb; 3rd person: माद्याती', chapter: 'Lesson 4' },
+            { sanskrit: 'मुह्यति', english: 'to faint', type: 'Class 1 verb; 3rd person: मुह्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'न', english: 'not', type: 'particle', chapter: 'Lesson 4' },
+            { sanskrit: 'नश्यति', english: 'to perish', type: 'Class 4 verb; 3rd person: नश्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'निन्दति', english: 'to blame', type: 'Class 1 verb; 3rd person: निन्दति', chapter: 'Lesson 4' },
+            { sanskrit: 'नृत्यति', english: 'to dance', type: 'Class 4 verb; 3rd person: नृत्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'पिबति', english: 'to drink', type: 'Class 1 irregular verb; 3rd person: पिबति', chapter: 'Lesson 4' },
+            { sanskrit: 'प्रासादः', english: 'palace', type: 'masculine noun', chapter: 'Lesson 4' },
+            { sanskrit: 'पुष्यति', english: 'to nourish, to feed', type: 'Class 4 verb; 3rd person: पुष्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'सीदति', english: 'to sit', type: 'Class 1 verb; 3rd person: सीदति', chapter: 'Lesson 4' },
+            { sanskrit: 'शाम्यति', english: 'to be quiet, to cease', type: 'Class 4 irregular verb; 3rd person: शाम्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'शीर्षम्', english: 'head', type: 'neuter noun', chapter: 'Lesson 4' },
+            { sanskrit: 'श्राम्यति', english: 'to be weary, tired', type: 'Class 4 irregular verb; 3rd person: श्राम्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'तिष्ठति', english: 'to stand', type: 'Class 1 irregular verb; 3rd person: तिष्ठति', chapter: 'Lesson 4' },
+            { sanskrit: 'तुष्यति', english: 'to be pleased', type: 'Class 4 verb; 3rd person: तुष्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'वनम्', english: 'forest', type: 'neuter noun', chapter: 'Lesson 4' },
+            { sanskrit: 'विध्यति', english: 'to pierce', type: 'Class 4 irregular verb; 3rd person: विध्यति', chapter: 'Lesson 4' },
+            { sanskrit: 'यच्छति', english: 'to restrain', type: 'Class 1 irregular verb; 3rd person: यच्छति', chapter: 'Lesson 4' },
+            
+            // Lesson 5 - Class 6 Verbs and more
+            { sanskrit: 'अनिलः', english: 'wind', type: 'masculine noun', chapter: 'Lesson 5' },
+            { sanskrit: 'भारः', english: 'burden', type: 'masculine noun', chapter: 'Lesson 5' },
+            { sanskrit: 'भूषणम्', english: 'ornament', type: 'neuter noun', chapter: 'Lesson 5' },
+            { sanskrit: 'दिशति', english: 'to show', type: 'Class 6 verb; 3rd person: दिशति', chapter: 'Lesson 5' },
+            { sanskrit: 'गृहम्', english: 'house', type: 'neuter noun', chapter: 'Lesson 5' },
+            { sanskrit: 'हंसः', english: 'swan', type: 'masculine noun', chapter: 'Lesson 5' },
+            { sanskrit: 'हसती', english: 'to laugh', type: 'Class 1 verb; 3rd person: हसती', chapter: 'Lesson 5' },
+            { sanskrit: 'ह्वयति', english: 'to call', type: 'Class 1 verb; 3rd person: ह्वयति', chapter: 'Lesson 5' },
+            { sanskrit: 'इच्छति', english: 'to wish', type: 'Class 6 irregular verb; 3rd person: इच्छति', chapter: 'Lesson 5' },
+            { sanskrit: 'कृन्तति', english: 'to cut', type: 'Class 6 irregular verb; 3rd person: कृन्तति', chapter: 'Lesson 5' },
+            { sanskrit: 'क्षिपति', english: 'to throw', type: 'Class 1 verb; 3rd person: क्षिपति', chapter: 'Lesson 5' },
+            { sanskrit: 'लिखती', english: 'to write', type: 'Class 1 verb; 3rd person: लिखती', chapter: 'Lesson 5' },
+            { sanskrit: 'लिम्पति', english: 'to anoint', type: 'Class 6 irregular verb; 3rd person: लिम्पति', chapter: 'Lesson 5' },
+            { sanskrit: 'लुम्पति', english: 'to break', type: 'Class 6 irregular verb; 3rd person: लुम्पति', chapter: 'Lesson 5' },
+            { sanskrit: 'मुञ्चति', english: 'to release', type: 'Class 6 irregular verb; 3rd person: मुञ्चति', chapter: 'Lesson 5' },
+            { sanskrit: 'पृच्छति', english: 'to ask', type: 'Class 6 irregular verb; 3rd person: पृच्छति', chapter: 'Lesson 5' },
+            { sanskrit: 'रत्नम्', english: 'jewel', type: 'neuter noun', chapter: 'Lesson 5' },
+            { sanskrit: 'सिञ्चति', english: 'to sprinkle', type: 'Class 6 irregular verb; 3rd person: सिञ्चति', chapter: 'Lesson 5' },
+            { sanskrit: 'स्पृशति', english: 'to touch', type: 'Class 1 verb; 3rd person: स्पृशति', chapter: 'Lesson 5' },
+            { sanskrit: 'शृगालः', english: 'jackal', type: 'masculine noun', chapter: 'Lesson 5' },
+            { sanskrit: 'सृजति', english: 'to create', type: 'Class 6 verb; 3rd person: सृजति', chapter: 'Lesson 5' },
+            { sanskrit: 'तीरम्', english: 'bank', type: 'neuter noun', chapter: 'Lesson 5' },
+            { sanskrit: 'तुदति', english: 'to strike', type: 'Class 6 verb; 3rd person: तुदति', chapter: 'Lesson 5' },
+            { sanskrit: 'विन्दति', english: 'to find', type: 'Class 6 irregular verb; 3rd person: विन्दति', chapter: 'Lesson 5' },
+            { sanskrit: 'वीरः', english: 'hero', type: 'masculine noun', chapter: 'Lesson 5' },
+            { sanskrit: 'विशति', english: 'to enter', type: 'Class 6 verb; 3rd person: विशति', chapter: 'Lesson 5' },
+            
+            // Additional vocabulary to reach 182 words - these would be from your lesson 6 or other lessons
+            // Since I can only see up to lesson 5 in your data, I'll add placeholders for the remaining words
+            // You can replace these with your actual lesson 6 vocabulary
+            { sanskrit: 'अग्निः', english: 'fire', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'आकाशः', english: 'sky', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'पृथ्वी', english: 'earth', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'वायुः', english: 'air', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'स्वर्गः', english: 'heaven', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'नरकः', english: 'hell', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'मित्रम्', english: 'friend', type: 'neuter noun', chapter: 'Lesson 6' },
+            { sanskrit: 'शत्रुः', english: 'enemy', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'गुरुः', english: 'teacher', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'शिष्यः', english: 'student', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'विद्या', english: 'knowledge', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'अविद्या', english: 'ignorance', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'धर्मः', english: 'dharma', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'अधर्मः', english: 'adharma', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'सत्यम्', english: 'truth', type: 'neuter noun', chapter: 'Lesson 6' },
+            { sanskrit: 'मिथ्या', english: 'falsehood', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'शान्तिः', english: 'peace', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'युद्धम्', english: 'war', type: 'neuter noun', chapter: 'Lesson 6' },
+            { sanskrit: 'राज्यम्', english: 'kingdom', type: 'neuter noun', chapter: 'Lesson 6' },
+            { sanskrit: 'प्रजा', english: 'subjects', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'सेना', english: 'army', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'रणः', english: 'battle', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'विजयः', english: 'victory', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'पराजयः', english: 'defeat', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'मरणम्', english: 'death', type: 'neuter noun', chapter: 'Lesson 6' },
+            { sanskrit: 'जन्म', english: 'birth', type: 'neuter noun', chapter: 'Lesson 6' },
+            { sanskrit: 'आयुः', english: 'life span', type: 'neuter noun', chapter: 'Lesson 6' },
+            { sanskrit: 'काल्ः', english: 'time', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'स्थितिः', english: 'stability', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'गतिः', english: 'movement', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'शक्तिः', english: 'power', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'भक्तिः', english: 'devotion', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'मुक्तिः', english: 'liberation', type: 'feminine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'बन्धः', english: 'bondage', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'मोक्षः', english: 'liberation', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'संसारः', english: 'worldly existence', type: 'masculine noun', chapter: 'Lesson 6' },
+            { sanskrit: 'निर्वाणम्', english: 'nirvana', type: 'neuter noun', chapter: 'Lesson 6' },
+            { sanskrit: 'ब्रह्म', english: 'Brahman', type: 'neuter noun', chapter: 'Lesson 6' }
+        ];
+
+        function loadSample() {
+            allVocabulary = [...sampleVocab];
+            startFlashcards();
+        }
+
+        function loadBasicSample() {
+            const basicSample = [
+                { sanskrit: 'अहम्', english: 'I', type: 'pronoun', chapter: 'Basic Sample' },
+                { sanskrit: 'त्वम्', english: 'you', type: 'pronoun', chapter: 'Basic Sample' },
+                { sanskrit: 'गच्छति', english: 'goes', type: 'Class 1 verb; 3rd person: गच्छति', chapter: 'Basic Sample' },
+                { sanskrit: 'ग्रामः', english: 'village', type: 'masculine noun', chapter: 'Basic Sample' },
+                { sanskrit: 'अधि', english: 'over/above', type: 'preposition; governs accusative', chapter: 'Basic Sample' }
+            ];
+            allVocabulary = [...basicSample];
+            startFlashcards();
+        }
+
+        function loadVocab() {
+            const input = document.getElementById('vocabInput').value.trim();
+            if (!input) {
+                alert('Please enter vocabulary or try the sample words!');
+                return;
+            }
+
+            allVocabulary = [];
+            const lines = input.split('\n');
+            
+            for (let line of lines) {
+                const parts = line.trim().split(',');
+                if (parts.length >= 3) {
+                    allVocabulary.push({
+                        sanskrit: parts[0].trim(),
+                        english: parts[1].trim(),
+                        type: parts[2].trim(),
+                        chapter: parts[3] ? parts[3].trim() : 'No chapter'
+                    });
+                }
+            }
+
+            if (allVocabulary.length === 0) {
+                alert('No valid vocabulary found. Please check the format.');
+                return;
+            }
+
+            startFlashcards();
+        }
+
+        function startFlashcards() {
+            document.getElementById('inputSection').classList.add('hidden');
+            document.getElementById('flashcardSection').classList.remove('hidden');
+            
+            // Extract unique chapters
+            chapters = [...new Set(allVocabulary.map(word => word.chapter))].sort();
+            populateChapterSelector();
+            
+            currentVocabulary = [...allVocabulary];
+            currentIndex = 0;
+            updateCard();
+            updateStats();
+        }
+
+        function populateChapterSelector() {
+            const select = document.getElementById('chapterSelect');
+            select.innerHTML = '<option value="all">All Chapters</option>';
+            
+            chapters.forEach(chapter => {
+                const option = document.createElement('option');
+                option.value = chapter;
+                option.textContent = chapter;
+                select.appendChild(option);
+            });
+        }
+
+        function changeChapter() {
+            const selectedChapter = document.getElementById('chapterSelect').value;
+            
+            if (selectedChapter === 'all') {
+                currentVocabulary = [...allVocabulary];
+            } else {
+                currentVocabulary = allVocabulary.filter(word => word.chapter === selectedChapter);
+            }
+            
+            currentIndex = 0;
+            updateCard();
+            updateStats();
+        }
+
+        function updateCard() {
+            if (currentVocabulary.length === 0) return;
+            
+            const word = currentVocabulary[currentIndex];
+            document.getElementById('sanskritText').textContent = word.sanskrit;
+            document.getElementById('englishText').textContent = word.english;
+            
+            // Parse and display grammar information
+            const grammarInfo = parseGrammarType(word.type);
+            document.getElementById('grammarType').textContent = grammarInfo.label;
+            document.getElementById('grammarType').className = `grammar-type ${grammarInfo.class}`;
+            document.getElementById('grammarDetails').innerHTML = grammarInfo.details;
+            
+            // Reset to front side
+            document.getElementById('frontSide').classList.remove('hidden');
+            document.getElementById('backSide').classList.add('hidden');
+            isFlipped = false;
+            
+            updateProgress();
+        }
+
+        function parseGrammarType(type) {
+            const lowerType = type.toLowerCase();
+            
+            if (lowerType.includes('verb')) {
+                const classMatch = type.match(/class (\d+)/i);
+                const thirdPersonMatch = type.match(/3rd person:\s*([^\s,]+)/);
+                
+                let details = '';
+                if (classMatch) {
+                    details += `<strong>Conjugation Class:</strong> ${classMatch[1]}<br>`;
+                }
+                if (thirdPersonMatch) {
+                    details += `<div class="third-person">3rd person singular: <span class="sanskrit">${thirdPersonMatch[1]}</span></div>`;
+                }
+                
+                return {
+                    label: `Class ${classMatch ? classMatch[1] : '?'} Verb`,
+                    class: 'verb-type',
+                    details: details
+                };
+            }
+            
+            if (lowerType.includes('noun')) {
+                const gender = lowerType.includes('masculine') ? 'Masculine' : 
+                            lowerType.includes('feminine') ? 'Feminine' : 
+                            lowerType.includes('neuter') ? 'Neuter' : 'Unknown Gender';
+                
+                return {
+                    label: `${gender} Noun`,
+                    class: 'noun-type',
+                    details: `<strong>Gender:</strong> ${gender}`
+                };
+            }
+            
+            if (lowerType.includes('preposition')) {
+                const governsMatch = type.match(/governs\s+([^,]+)/i);
+                const governs = governsMatch ? governsMatch[1] : 'unknown case';
+                
+                return {
+                    label: 'Preposition',
+                    class: 'prep-type',
+                    details: `<strong>Governs:</strong> ${governs}`
+                };
+            }
+            
+            if (lowerType.includes('pronoun')) {
+                return {
+                    label: 'Pronoun',
+                    class: 'pronoun-type',
+                    details: `<strong>Type:</strong> ${type}`
+                };
+            }
+            
+            return {
+                label: 'Particle',
+                class: 'particle-type',
+                details: `<strong>Type:</strong> ${type}`
+            };
+        }
+
+        function updateProgress() {
+            document.getElementById('currentNum').textContent = currentIndex + 1;
+            document.getElementById('totalNum').textContent = currentVocabulary.length;
+            
+            const progress = currentVocabulary.length > 0 ? ((currentIndex + 1) / currentVocabulary.length) * 100 : 0;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        function updateStats() {
+            const selectedChapter = document.getElementById('chapterSelect').value;
+            const statsDiv = document.getElementById('chapterStats');
+            
+            if (selectedChapter === 'all') {
+                statsDiv.textContent = `Total: ${currentVocabulary.length} words across ${chapters.length} chapters`;
+            } else {
+                statsDiv.textContent = `${currentVocabulary.length} words in ${selectedChapter}`;
+            }
+        }
+
+        function flipCard() {
+            const front = document.getElementById('frontSide');
+            const back = document.getElementById('backSide');
+            
+            if (isFlipped) {
+                front.classList.remove('hidden');
+                back.classList.add('hidden');
+            } else {
+                front.classList.add('hidden');
+                back.classList.remove('hidden');
+            }
+            isFlipped = !isFlipped;
+        }
+
+        function nextCard() {
+            currentIndex = (currentIndex + 1) % currentVocabulary.length;
+            updateCard();
+        }
+
+        function prevCard() {
+            currentIndex = (currentIndex - 1 + currentVocabulary.length) % currentVocabulary.length;
+            updateCard();
+        }
+
+        function shuffle() {
+            for (let i = currentVocabulary.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [currentVocabulary[i], currentVocabulary[j]] = [currentVocabulary[j], currentVocabulary[i]];
+            }
+            currentIndex = 0;
+            updateCard();
+        }
+
+        function resetCards() {
+            currentIndex = 0;
+            updateCard();
+        }
+
+        function showInput() {
+            document.getElementById('inputSection').classList.remove('hidden');
+            document.getElementById('flashcardSection').classList.add('hidden');
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (document.getElementById('flashcardSection').classList.contains('hidden')) return;
+            
+            switch(e.key) {
+                case ' ':
+                    e.preventDefault();
+                    flipCard();
+                    break;
+                case 'ArrowLeft':
+                    prevCard();
+                    break;
+                case 'ArrowRight':
+                    nextCard();
+                    break;
+            }
+        });
+    </script>
+</body>
+</html>
