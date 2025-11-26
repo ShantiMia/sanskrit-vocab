@@ -1,0 +1,604 @@
+/* ===================================
+   Surya Namaskar Practice Module
+   Golden Embossed Theme
+   =================================== */
+
+/* CSS Variables - matching App.css */
+:root {
+  --gold-deep: #b8860b;
+  --gold-rich: #d4af37;
+  --gold-light: #f0c869;
+  --gold-pale: #f5e6c8;
+  --cream: #f5f5dc;
+  --off-white: #faf8f3;
+  --text-dark: #4a3f35;
+}
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Crimson+Pro:wght@300;400;600&display=swap');
+
+/* ===================================
+   Container & Layout
+   =================================== */
+
+.surya-namaskar-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--off-white) 0%, var(--cream) 50%, var(--gold-pale) 100%);
+  font-family: 'Crimson Pro', serif;
+  color: var(--text-dark);
+  padding: 1rem;
+}
+
+/* ===================================
+   Header
+   =================================== */
+
+.sn-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.back-button {
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.progress-indicator {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  text-align: center;
+  flex: 1;
+}
+
+/* ===================================
+   Embossed Effects (Reusable)
+   =================================== */
+
+.embossed-text {
+  text-shadow:
+    1px 1px 1px rgba(255, 255, 255, 0.8),
+    -1px -1px 1px rgba(184, 134, 11, 0.3);
+}
+
+.embossed-button {
+  background: linear-gradient(145deg, var(--gold-light), var(--gold-rich));
+  box-shadow:
+    4px 4px 8px rgba(184, 134, 11, 0.3),
+    -4px -4px 8px rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 30px;
+  padding: 1rem 2.5rem;
+  font-family: 'Philosopher', sans-serif;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.embossed-button:hover {
+  box-shadow:
+    6px 6px 12px rgba(184, 134, 11, 0.4),
+    -2px -2px 6px rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.embossed-button:active {
+  box-shadow:
+    inset 4px 4px 8px rgba(184, 134, 11, 0.3),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.2);
+  transform: translateY(0);
+}
+
+.embossed-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ===================================
+   Configuration Screen
+   =================================== */
+
+.config-screen {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.config-title {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 3rem;
+  color: var(--gold-deep);
+}
+
+.config-section {
+  margin-bottom: 3rem;
+}
+
+.config-label {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-dark);
+}
+
+.config-options {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.config-option {
+  min-width: 80px;
+  padding: 1rem 1.5rem;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.config-option.selected {
+  background: linear-gradient(145deg, var(--gold-rich), var(--gold-deep));
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.2),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.1);
+  transform: scale(0.95);
+}
+
+.begin-button {
+  margin-top: 2rem;
+  font-size: 1.4rem;
+  padding: 1.25rem 3rem;
+  background: linear-gradient(145deg, var(--gold-rich), var(--gold-deep));
+  box-shadow:
+    6px 6px 12px rgba(184, 134, 11, 0.4),
+    -4px -4px 10px rgba(255, 255, 255, 0.6);
+}
+
+.begin-button:hover {
+  box-shadow:
+    8px 8px 16px rgba(184, 134, 11, 0.5),
+    -2px -2px 8px rgba(255, 255, 255, 0.7);
+  transform: translateY(-3px);
+}
+
+/* ===================================
+   Practice Screen
+   =================================== */
+
+.practice-screen {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.posture-display {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(145deg, #faf8f3, #f0e6d8);
+  box-shadow:
+    8px 8px 16px rgba(184, 134, 11, 0.15),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  padding: 2rem;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.posture-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  animation: fadeIn 0.5s ease-in;
+}
+
+.posture-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, var(--gold-pale), var(--cream));
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.posture-placeholder p {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 1.2rem;
+  color: var(--gold-deep);
+}
+
+.placeholder-name {
+  font-size: 1rem !important;
+  font-family: 'Crimson Pro', serif !important;
+  color: var(--text-dark) !important;
+}
+
+/* ===================================
+   Posture Info
+   =================================== */
+
+.posture-info {
+  text-align: center;
+}
+
+.sanskrit-name {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--gold-deep);
+}
+
+.english-name {
+  font-size: 1.5rem;
+  color: var(--text-dark);
+  opacity: 0.8;
+}
+
+/* ===================================
+   Timer Display
+   =================================== */
+
+.timer-display {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 4rem;
+  font-weight: 700;
+  color: var(--gold-deep);
+  animation: pulse 1s ease-in-out infinite;
+  padding: 1rem 2rem;
+  background: linear-gradient(145deg, #faf8f3, #f0e6d8);
+  box-shadow:
+    6px 6px 12px rgba(184, 134, 11, 0.15),
+    -6px -6px 12px rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+  min-width: 200px;
+  text-align: center;
+}
+
+.timer-warning {
+  color: #d4af37;
+  animation: pulse 0.5s ease-in-out infinite, flash 0.5s ease-in-out infinite;
+}
+
+/* ===================================
+   Control Buttons
+   =================================== */
+
+.control-buttons {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+
+.control-button {
+  min-width: 120px;
+  padding: 1rem 2rem;
+}
+
+.pause-button {
+  background: linear-gradient(145deg, var(--gold-rich), var(--gold-deep));
+  min-width: 140px;
+}
+
+/* ===================================
+   Completion Screen
+   =================================== */
+
+.completion-screen {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  min-height: 80vh;
+  justify-content: center;
+}
+
+.completion-stars {
+  font-size: 4rem;
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.completion-title {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 3rem;
+  color: var(--gold-deep);
+  margin: 1rem 0;
+}
+
+.completion-message {
+  font-size: 1.5rem;
+  line-height: 2;
+  color: var(--text-dark);
+  opacity: 0.9;
+}
+
+.completion-buttons {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* ===================================
+   Animations
+   =================================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes flash {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes sparkle {
+  0%, 100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(1.1) rotate(5deg);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.2) rotate(-5deg);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.1) rotate(5deg);
+    opacity: 0.8;
+  }
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .config-title {
+    font-size: 2rem;
+  }
+
+  .config-label {
+    font-size: 1.3rem;
+  }
+
+  .sanskrit-name {
+    font-size: 2rem;
+  }
+
+  .english-name {
+    font-size: 1.2rem;
+  }
+
+  .timer-display {
+    font-size: 3rem;
+  }
+
+  .completion-title {
+    font-size: 2.5rem;
+  }
+
+  .completion-message {
+    font-size: 1.3rem;
+  }
+
+  .control-buttons {
+    gap: 1rem;
+  }
+
+  .control-button {
+    min-width: 100px;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .surya-namaskar-container {
+    padding: 0.5rem;
+  }
+
+  .sn-header {
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .back-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .progress-indicator {
+    font-size: 0.9rem;
+  }
+
+  .config-title {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+
+  .config-label {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .config-options {
+    gap: 0.75rem;
+  }
+
+  .config-option {
+    min-width: 60px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+
+  .begin-button {
+    font-size: 1.2rem;
+    padding: 1rem 2rem;
+  }
+
+  .practice-screen {
+    gap: 1.5rem;
+  }
+
+  .posture-display {
+    padding: 1rem;
+  }
+
+  .sanskrit-name {
+    font-size: 1.5rem;
+  }
+
+  .english-name {
+    font-size: 1rem;
+  }
+
+  .timer-display {
+    font-size: 2.5rem;
+    padding: 0.75rem 1.5rem;
+    min-width: 150px;
+  }
+
+  .control-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .control-button {
+    width: 100%;
+    min-width: auto;
+    padding: 0.875rem;
+  }
+
+  .completion-stars {
+    font-size: 3rem;
+  }
+
+  .completion-title {
+    font-size: 2rem;
+  }
+
+  .completion-message {
+    font-size: 1.1rem;
+  }
+
+  .completion-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .completion-buttons .embossed-button {
+    width: 100%;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .config-title {
+    font-size: 1.5rem;
+  }
+
+  .sanskrit-name {
+    font-size: 1.3rem;
+  }
+
+  .timer-display {
+    font-size: 2rem;
+  }
+
+  .completion-title {
+    font-size: 1.75rem;
+  }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 600px) and (orientation: landscape) {
+  .practice-screen {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .posture-display {
+    max-width: 300px;
+    flex: 1;
+  }
+
+  .posture-info,
+  .timer-display,
+  .control-buttons {
+    flex: 1;
+    min-width: 250px;
+  }
+
+  .completion-screen {
+    min-height: auto;
+    padding: 2rem 1rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  .back-button,
+  .control-buttons,
+  .completion-buttons {
+    display: none;
+  }
+
+  .surya-namaskar-container {
+    background: white;
+  }
+
+  .posture-display {
+    box-shadow: none;
+  }
+}
