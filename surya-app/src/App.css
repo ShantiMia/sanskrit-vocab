@@ -1,0 +1,129 @@
+/* ===================================
+   App.css - Main Application Styles
+   Golden Embossed Theme
+   =================================== */
+
+/* CSS Variables */
+:root {
+  --gold-deep: #b8860b;
+  --gold-rich: #d4af37;
+  --gold-light: #f0c869;
+  --gold-pale: #f5e6c8;
+  --cream: #f5f5dc;
+  --off-white: #faf8f3;
+  --text-dark: #4a3f35;
+  --text-medium: #8b7355;
+}
+
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Philosopher:wght@400;700&family=Crimson+Pro:wght@300;400;600&display=swap');
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Crimson Pro', serif;
+  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--off-white) 0%, var(--cream) 50%, var(--gold-pale) 100%);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* App Container */
+.app {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Placeholder Screen (for unfinished sections) */
+.placeholder-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  gap: 2rem;
+}
+
+.placeholder-screen button {
+  background: linear-gradient(145deg, var(--gold-light), var(--gold-rich));
+  box-shadow:
+    4px 4px 8px rgba(184, 134, 11, 0.3),
+    -4px -4px 8px rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 30px;
+  padding: 1rem 2.5rem;
+  font-family: 'Philosopher', sans-serif;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.placeholder-screen button:hover {
+  box-shadow:
+    6px 6px 12px rgba(184, 134, 11, 0.4),
+    -2px -2px 6px rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.placeholder-screen h1 {
+  font-family: 'Philosopher', sans-serif;
+  font-size: 3rem;
+  color: var(--gold-deep);
+  text-shadow:
+    2px 2px 4px rgba(255, 255, 255, 0.8),
+    -1px -1px 2px rgba(184, 134, 11, 0.3);
+}
+
+.placeholder-screen p {
+  font-size: 1.3rem;
+  color: var(--text-medium);
+}
+
+/* Utility Classes */
+.embossed-text {
+  text-shadow:
+    1px 1px 1px rgba(255, 255, 255, 0.8),
+    -1px -1px 1px rgba(184, 134, 11, 0.3);
+}
+
+.embossed-surface {
+  background: linear-gradient(145deg, #faf8f3, #f0e6d8);
+  box-shadow:
+    8px 8px 16px rgba(184, 134, 11, 0.15),
+    -8px -8px 16px rgba(255, 255, 255, 0.8);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .placeholder-screen h1 {
+    font-size: 2.5rem;
+  }
+
+  .placeholder-screen p {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .placeholder-screen h1 {
+    font-size: 2rem;
+  }
+
+  .placeholder-screen p {
+    font-size: 1rem;
+  }
+
+  .placeholder-screen button {
+    padding: 0.875rem 2rem;
+    font-size: 1rem;
+  }
+}
