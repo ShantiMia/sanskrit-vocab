@@ -3,6 +3,7 @@ import './App.css';
 import SplashScreen from './components/SplashScreen';
 import WelcomeScreen from './components/WelcomeScreen';
 import SuryaNamaskar from './components/SuryaNamaskar';
+import NamesOfSurya from './components/NamesOfSurya';
 
 function App() {
   // Splash screen state
@@ -51,11 +52,7 @@ function App() {
       )}
 
       {currentScreen === 'names' && (
-        <div className="placeholder-screen">
-          <button onClick={handleBackToHome}>← Back</button>
-          <h1>Names of Surya</h1>
-          <p>Names study component will go here</p>
-        </div>
+        <NamesOfSurya onBack={handleBackToHome} />
       )}
     </div>
   );

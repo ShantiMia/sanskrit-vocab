@@ -1,0 +1,503 @@
+/* ===================================
+   Names of Surya - Card Study Interface
+   Matching Welcome Page Mockup Style
+   =================================== */
+
+/* Container */
+.names-of-surya {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f5dc 0%, #f0e6d8 50%, #f5e6c8 100%);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Header */
+.names-header {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.back-button-names {
+  background: linear-gradient(145deg, #f0c869, #d4af37);
+  border: none;
+  border-radius: 25px;
+  padding: 0.75rem 1.5rem;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow:
+    4px 4px 8px rgba(184, 134, 11, 0.4),
+    -4px -4px 8px rgba(255, 255, 255, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  font-weight: 600;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.back-button-names:hover {
+  box-shadow:
+    6px 6px 12px rgba(184, 134, 11, 0.5),
+    -2px -2px 6px rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+
+.names-title {
+  font-family: 'Philosopher', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #d4af37;
+  text-shadow:
+    2px 2px 4px rgba(255, 255, 255, 0.8),
+    -1px -1px 2px rgba(184, 134, 11, 0.4),
+    0 0 20px rgba(212, 175, 55, 0.3);
+  letter-spacing: 0.15em;
+}
+
+.progress-indicator {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1rem;
+  color: #8b7355;
+  font-weight: 600;
+}
+
+/* Card Container */
+.card-container {
+  width: 100%;
+  max-width: 700px;
+  margin: 2rem 0;
+  perspective: 1000px;
+}
+
+.name-card {
+  background: linear-gradient(145deg, #d4af37, #b8860b);
+  border-radius: 30px;
+  padding: 3rem;
+  min-height: 500px;
+  cursor: pointer;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+  box-shadow:
+    8px 8px 20px rgba(184, 134, 11, 0.5),
+    -8px -8px 20px rgba(255, 255, 255, 0.4),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.1);
+
+  /* Embossed texture effect */
+  background-image:
+    repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,.05) 2px, rgba(255,255,255,.05) 4px),
+    repeating-linear-gradient(-45deg, transparent, transparent 2px, rgba(0,0,0,.03) 2px, rgba(0,0,0,.03) 4px);
+}
+
+.name-card:hover {
+  box-shadow:
+    10px 10px 25px rgba(184, 134, 11, 0.6),
+    -6px -6px 20px rgba(255, 255, 255, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.4);
+}
+
+.name-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  backface-visibility: hidden;
+  position: relative;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 3rem;
+}
+
+/* Card Front */
+.card-number {
+  font-family: 'Philosopher', serif;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.name-display {
+  text-align: center;
+  margin: 3rem 0;
+}
+
+.devanagari-name {
+  font-family: 'Philosopher', serif;
+  font-size: 4rem;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-shadow:
+    3px 3px 6px rgba(0, 0, 0, 0.3),
+    -1px -1px 2px rgba(255, 255, 255, 0.4),
+    0 0 30px rgba(255, 255, 255, 0.3);
+  font-weight: 700;
+}
+
+.iast-name {
+  font-family: 'Philosopher', serif;
+  font-size: 2.5rem;
+  color: #faf8f3;
+  margin-bottom: 0.5rem;
+  text-shadow:
+    2px 2px 4px rgba(0, 0, 0, 0.2),
+    -1px -1px 1px rgba(255, 255, 255, 0.3);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.pronunciation {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-style: italic;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Mantra Display */
+.mantra-display {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow:
+    inset 3px 3px 6px rgba(0, 0, 0, 0.2),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
+}
+
+.mantra-devanagari {
+  font-family: 'Philosopher', serif;
+  font-size: 2rem;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 600;
+}
+
+.mantra-translation {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.95);
+  text-align: center;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Back - Detailed Info */
+.scroll-content {
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 1rem;
+  color: #ffffff;
+}
+
+.scroll-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scroll-content::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.scroll-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.section-title {
+  font-family: 'Philosopher', serif;
+  font-size: 1.3rem;
+  color: #ffffff;
+  margin: 1.5rem 0 1rem 0;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.etymology-box {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.etymology-box p {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.95);
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.etymology-box strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.construction {
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.full-meaning,
+.contemplation {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.95);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.references-list {
+  list-style: none;
+  padding: 0;
+}
+
+.references-list li {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.references-list strong {
+  font-family: 'Philosopher', serif;
+  font-size: 1.05rem;
+  color: #ffffff;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.references-list p {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0.25rem 0;
+  line-height: 1.6;
+}
+
+.quote {
+  font-style: italic;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+.translation {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+/* Tap Hint */
+.tap-hint {
+  text-align: center;
+  margin-top: 2rem;
+  font-family: 'Crimson Pro', serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-style: italic;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation Buttons */
+.navigation-buttons {
+  display: flex;
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.nav-button {
+  background: linear-gradient(145deg, #f0c869, #d4af37);
+  border: none;
+  border-radius: 30px;
+  padding: 1rem 3rem;
+  font-family: 'Philosopher', serif;
+  font-size: 1.2rem;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow:
+    5px 5px 12px rgba(184, 134, 11, 0.4),
+    -5px -5px 12px rgba(255, 255, 255, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+  letter-spacing: 0.05em;
+}
+
+.nav-button:hover:not(:disabled) {
+  box-shadow:
+    7px 7px 16px rgba(184, 134, 11, 0.5),
+    -3px -3px 10px rgba(255, 255, 255, 0.6);
+  transform: translateY(-3px);
+}
+
+.nav-button:active:not(:disabled) {
+  box-shadow:
+    inset 4px 4px 8px rgba(184, 134, 11, 0.4),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.2);
+  transform: translateY(0);
+}
+
+.nav-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Progress Dots */
+.progress-dots {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.progress-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(212, 175, 55, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.2),
+    2px 2px 4px rgba(255, 255, 255, 0.3);
+}
+
+.progress-dot.active {
+  background: linear-gradient(145deg, #f0c869, #d4af37);
+  box-shadow:
+    3px 3px 6px rgba(184, 134, 11, 0.5),
+    -2px -2px 4px rgba(255, 255, 255, 0.5);
+  transform: scale(1.3);
+}
+
+.progress-dot.completed {
+  background: linear-gradient(145deg, #d4af37, #b8860b);
+  box-shadow:
+    2px 2px 4px rgba(184, 134, 11, 0.4),
+    -1px -1px 2px rgba(255, 255, 255, 0.4);
+}
+
+.progress-dot:hover {
+  transform: scale(1.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .names-of-surya {
+    padding: 1.5rem;
+  }
+
+  .names-title {
+    font-size: 1.5rem;
+  }
+
+  .name-card {
+    padding: 2rem;
+    min-height: 450px;
+  }
+
+  .devanagari-name {
+    font-size: 3rem;
+  }
+
+  .iast-name {
+    font-size: 2rem;
+  }
+
+  .mantra-devanagari {
+    font-size: 1.5rem;
+  }
+
+  .navigation-buttons {
+    gap: 1rem;
+  }
+
+  .nav-button {
+    padding: 0.875rem 2rem;
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .names-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .names-title {
+    font-size: 1.3rem;
+  }
+
+  .name-card {
+    padding: 1.5rem;
+    min-height: 400px;
+  }
+
+  .devanagari-name {
+    font-size: 2.5rem;
+  }
+
+  .iast-name {
+    font-size: 1.75rem;
+  }
+
+  .pronunciation {
+    font-size: 1rem;
+  }
+
+  .mantra-display {
+    padding: 1.5rem;
+  }
+
+  .mantra-devanagari {
+    font-size: 1.3rem;
+  }
+
+  .navigation-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .nav-button {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .progress-dots {
+    gap: 0.5rem;
+  }
+
+  .progress-dot {
+    width: 12px;
+    height: 12px;
+  }
+}
