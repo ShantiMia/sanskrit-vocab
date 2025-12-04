@@ -1,90 +1,104 @@
 import React, { useState, useEffect } from 'react';
 import './SuryaNamaskar.css';
 
+// Import posture images
+import pose01 from '../assets/images/postures/pose_01_pranamasana.png';
+import pose02 from '../assets/images/postures/pose_02_hasta_uttanasana.png';
+import pose03 from '../assets/images/postures/pose_03_pada_hastasana.png';
+import pose04 from '../assets/images/postures/pose_04_ashwa_sanchalanasana.png';
+import pose05 from '../assets/images/postures/pose_05_dandasana.png';
+import pose06 from '../assets/images/postures/pose_06_ashtanga_namaskara.png';
+import pose07 from '../assets/images/postures/pose_07_bhujangasana.png';
+import pose08 from '../assets/images/postures/pose_08_parvatasana.png';
+import pose09 from '../assets/images/postures/pose_09_ashwa_sanchalanasana_left.png';
+import pose10 from '../assets/images/postures/pose_10_pada_hastasana.png';
+import pose11 from '../assets/images/postures/pose_11_hasta_uttanasana.png';
+import pose12 from '../assets/images/postures/pose_12_pranamasana.png';
+
 // Posture data for the 12 poses of Surya Namaskar
 const postureData = [
   {
     id: 1,
     sanskritName: "Pranamasana",
     englishName: "Prayer Pose",
-    imagePath: "/assets/images/postures/pose_01_pranamasana.png",
+    imagePath: pose01,
     defaultDuration: 5
   },
   {
     id: 2,
     sanskritName: "Hasta Uttanasana",
     englishName: "Raised Arms Pose",
-    imagePath: "/assets/images/postures/pose_02_hasta_uttanasana.png",
+    imagePath: pose02,
     defaultDuration: 5
   },
   {
     id: 3,
     sanskritName: "Pada Hastasana",
     englishName: "Hand to Foot Pose",
-    imagePath: "/assets/images/postures/pose_03_pada_hastasana.png",
+    imagePath: pose03,
     defaultDuration: 5
   },
   {
     id: 4,
     sanskritName: "Ashwa Sanchalanasana",
     englishName: "Equestrian Pose",
-    imagePath: "/assets/images/postures/pose_04_ashwa_sanchalanasana.png",
+    imagePath: pose04,
     defaultDuration: 5
   },
   {
     id: 5,
     sanskritName: "Dandasana",
     englishName: "Stick Pose",
-    imagePath: "/assets/images/postures/pose_05_dandasana.png",
+    imagePath: pose05,
     defaultDuration: 5
   },
   {
     id: 6,
     sanskritName: "Ashtanga Namaskara",
     englishName: "Eight-Limbed Salutation",
-    imagePath: "/assets/images/postures/pose_06_ashtanga_namaskara.png",
+    imagePath: pose06,
     defaultDuration: 5
   },
   {
     id: 7,
     sanskritName: "Bhujangasana",
     englishName: "Cobra Pose",
-    imagePath: "/assets/images/postures/pose_07_bhujangasana.png",
+    imagePath: pose07,
     defaultDuration: 5
   },
   {
     id: 8,
     sanskritName: "Parvatasana",
     englishName: "Mountain Pose",
-    imagePath: "/assets/images/postures/pose_08_parvatasana.png",
+    imagePath: pose08,
     defaultDuration: 5
   },
   {
     id: 9,
     sanskritName: "Ashwa Sanchalanasana",
     englishName: "Equestrian Pose (Left)",
-    imagePath: "/assets/images/postures/pose_09_ashwa_sanchalanasana_left.png",
+    imagePath: pose09,
     defaultDuration: 5
   },
   {
     id: 10,
     sanskritName: "Pada Hastasana",
     englishName: "Hand to Foot Pose",
-    imagePath: "/assets/images/postures/pose_10_pada_hastasana.png",
+    imagePath: pose10,
     defaultDuration: 5
   },
   {
     id: 11,
     sanskritName: "Hasta Uttanasana",
     englishName: "Raised Arms Pose",
-    imagePath: "/assets/images/postures/pose_11_hasta_uttanasana.png",
+    imagePath: pose11,
     defaultDuration: 5
   },
   {
     id: 12,
     sanskritName: "Pranamasana",
     englishName: "Prayer Pose",
-    imagePath: "/assets/images/postures/pose_12_pranamasana.png",
+    imagePath: pose12,
     defaultDuration: 5
   }
 ];
