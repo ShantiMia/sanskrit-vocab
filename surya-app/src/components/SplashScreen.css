@@ -1,16 +1,15 @@
 /* ===================================
-   Splash Screen - Lotus Unfoldment Animation
-   7.5 Second Sequence
+   Splash Screen - Sun Rising Animation
+   13 Second Sequence
    =================================== */
 
 /* CSS Variables */
 :root {
   --splash-bg-dark: #1a1410;
   --splash-bg-medium: #2d2416;
-  --sun-gold: #d4af37;
-  --petal-gold: rgba(212, 175, 55, 0.8);
-  --glow: rgba(212, 175, 55, 0.4);
-  --gold-deep: #b8860b;
+  --sun-orange-light: rgba(255, 140, 50, 1);
+  --sun-orange-dark: rgba(200, 80, 20, 1);
+  --glow-orange: rgba(255, 140, 50, 0.8);
   --gold-rich: #d4af37;
   --gold-light: #f0c869;
   --text-medium: #8b7355;
@@ -34,131 +33,121 @@
   z-index: 9999;
 }
 
-.splash-screen.fade-out {
-  animation: screenFadeOut 0.5s ease-out forwards;
-}
-
 /* ===================================
-   Phase 1: Dawn - Sun Rising (0-1.5s)
+   Phase 1-2: Sun + Glow Rising (0-5s)
+   Then Pulsing (5-8s)
+   Then Obliteration (8-10s)
    =================================== */
 
-.sun-container {
+.sun-glow-container {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 1;
-}
-
-.sun {
   width: 200px;
   height: 200px;
-  background: radial-gradient(circle, var(--gold-light) 0%, var(--sun-gold) 50%, var(--gold-deep) 100%);
-  border-radius: 50%;
-  box-shadow:
-    0 0 40px rgba(212, 175, 55, 0.8),
-    0 0 80px rgba(212, 175, 55, 0.6),
-    0 0 120px rgba(212, 175, 55, 0.4),
-    inset 0 0 40px rgba(255, 255, 255, 0.3);
-  animation: riseUp 1.5s ease-out forwards;
+  z-index: 1;
+  animation: riseUp 5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
 }
 
-@keyframes riseUp {
-  0% {
-    transform: translateY(100vh) scale(0.3);
-    opacity: 0;
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-  }
-  50% {
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(0) scale(1);
-    opacity: 1;
-    box-shadow:
-      0 0 40px rgba(212, 175, 55, 0.8),
-      0 0 80px rgba(212, 175, 55, 0.6),
-      0 0 120px rgba(212, 175, 55, 0.4);
-  }
-}
-
-/* ===================================
-   Phase 2-3: Lotus Petals Unfold (1.5s-4.5s)
-   =================================== */
-
-.lotus-container {
+/* Orange/Red Glow - starts at bottom, rises to center */
+.sun-glow {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 400px;
-  height: 400px;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, var(--sun-orange-light) 0%, var(--sun-orange-dark) 70%, transparent 100%);
+  border-radius: 50%;
+  box-shadow:
+    0 0 60px var(--glow-orange),
+    0 0 100px rgba(255, 140, 50, 0.6),
+    0 0 140px rgba(255, 140, 50, 0.4);
+  animation:
+    glowPulse 3s ease-in-out 5s infinite,
+    obliterate 2s cubic-bezier(0.4, 0.0, 0.2, 1) 8s forwards;
+}
+
+/* Sun Logo - perfectly centered inside the glow */
+.sun-logo-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   z-index: 2;
 }
 
-.lotus-petal {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 60px;
-  height: 140px;
-  transform-origin: center bottom;
-  animation:
-    appear 0.5s ease-in calc(2.5s + var(--delay)) forwards,
-    unfold 1.5s ease-out calc(2.5s + var(--delay)) forwards,
-    fadeOut 1s ease-out 5.5s forwards;
-  opacity: 0;
-}
-
-/* Create petal shape */
-.lotus-petal::before {
-  content: '';
-  position: absolute;
+.sun-logo {
   width: 100%;
   height: 100%;
-  background: linear-gradient(180deg,
-    var(--gold-light) 0%,
-    var(--gold-rich) 50%,
-    var(--gold-deep) 100%);
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 12px rgba(255, 140, 50, 0.6));
+  animation: glowPulse 3s ease-in-out 5s infinite;
+}
+
+/* Fallback sun if image doesn't exist */
+.sun-logo-fallback {
+  width: 120px;
+  height: 120px;
+  background: radial-gradient(circle, var(--gold-light) 0%, var(--gold-rich) 50%, #b8860b 100%);
+  border-radius: 50%;
   box-shadow:
-    0 0 20px rgba(212, 175, 55, 0.6),
-    inset 0 0 10px rgba(255, 255, 255, 0.3),
-    inset 0 -10px 20px rgba(184, 134, 11, 0.4);
+    0 0 20px rgba(212, 175, 55, 0.8),
+    0 0 40px rgba(212, 175, 55, 0.6),
+    inset 0 0 20px rgba(255, 255, 255, 0.3);
+  animation: glowPulse 3s ease-in-out 5s infinite;
 }
 
-@keyframes appear {
-  from {
+/* Animation: Rise from bottom to center (0-5s) */
+@keyframes riseUp {
+  0% {
+    transform: translate(-50%, calc(100vh + 100px));
     opacity: 0;
   }
-  to {
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%);
     opacity: 1;
   }
 }
 
-@keyframes unfold {
-  0% {
-    transform: translate(-50%, -50%) rotate(var(--rotation)) scale(0) translateX(0);
+/* Animation: Pulsing glow (5-8s) */
+@keyframes glowPulse {
+  0%, 100% {
+    filter: drop-shadow(0 4px 12px rgba(255, 140, 50, 0.6));
+    transform: translate(-50%, -50%) scale(1);
   }
-  60% {
-    transform: translate(-50%, -50%) rotate(var(--rotation)) scale(1.1) translateX(110px);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(var(--rotation)) scale(1) translateX(100px);
+  50% {
+    filter: drop-shadow(0 8px 24px rgba(255, 140, 50, 1));
+    transform: translate(-50%, -50%) scale(1.05);
   }
 }
 
-@keyframes fadeOut {
+/* Animation: Obliteration - glow fills entire screen (8-10s) */
+@keyframes obliterate {
   0% {
+    width: 200px;
+    height: 200px;
     opacity: 1;
   }
   100% {
-    opacity: 0;
+    width: 300vw;
+    height: 300vh;
+    opacity: 1;
+    background: radial-gradient(circle, var(--sun-orange-light) 0%, var(--sun-orange-dark) 30%, var(--splash-bg-medium) 70%);
   }
 }
 
 /* ===================================
-   Phase 4: Revelation (4.5s-6.5s)
+   Phase 3: Revelation (10-13s)
    Logo, Title, Credit
    =================================== */
 
@@ -172,15 +161,25 @@
   align-items: center;
   gap: 1rem;
   z-index: 10;
+  opacity: 0;
+  animation: revealFade 1s ease-in 10s forwards;
 }
 
-/* Phase 4b: Title appears at 5s */
+/* Title Image */
+.splash-title-img {
+  max-width: 400px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 16px rgba(212, 175, 55, 0.6));
+}
+
+/* Fallback text title if image doesn't exist */
 .splash-title {
   font-family: 'Philosopher', sans-serif;
   font-size: 3.5rem;
   font-weight: 700;
   letter-spacing: 0.3em;
-  color: var(--gold-deep);
+  color: #b8860b;
   text-shadow:
     2px 2px 4px rgba(255, 255, 255, 0.8),
     -1px -1px 2px rgba(184, 134, 11, 0.4),
@@ -188,15 +187,11 @@
     0 0 50px rgba(212, 175, 55, 0.4);
   margin: 0;
   text-align: center;
-  opacity: 0;
-  animation: fadeInUp 0.5s ease-in 5s forwards;
 }
 
-/* Phase 4a: Logo appears at 4.5s */
+/* Logo */
 .logo-container {
   margin: 1.5rem 0;
-  opacity: 0;
-  animation: fadeInUp 0.5s ease-in 4.5s forwards;
 }
 
 .logo-container img {
@@ -204,7 +199,6 @@
   height: 180px;
   object-fit: contain;
   filter: drop-shadow(0 8px 16px rgba(212, 175, 55, 0.5));
-  animation: gentleGlow 3s ease-in-out 4.5s infinite;
 }
 
 .logo-placeholder {
@@ -224,16 +218,7 @@
   border-radius: 50%;
 }
 
-@keyframes gentleGlow {
-  0%, 100% {
-    filter: drop-shadow(0 8px 16px rgba(212, 175, 55, 0.5));
-  }
-  50% {
-    filter: drop-shadow(0 8px 24px rgba(212, 175, 55, 0.8));
-  }
-}
-
-/* Phase 4c: Credit appears at 5.5s */
+/* Credit */
 .splash-credit {
   font-family: 'Crimson Pro', serif;
   font-size: 1.3rem;
@@ -242,8 +227,6 @@
   letter-spacing: 0.08em;
   margin: 0;
   text-align: center;
-  opacity: 0;
-  animation: fadeInUp 0.5s ease-in 5.5s forwards;
 }
 
 .splash-credit .company-name {
@@ -254,14 +237,15 @@
     -1px -1px 1px rgba(184, 134, 11, 0.3);
 }
 
-@keyframes fadeInUp {
+/* Animation: Fade in revelation content */
+@keyframes revealFade {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translate(-50%, -45%);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-50%, -50%);
   }
 }
 
@@ -309,19 +293,6 @@
 }
 
 /* ===================================
-   Phase 5: Screen Transition
-   =================================== */
-
-@keyframes screenFadeOut {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-}
-
-/* ===================================
    Responsive Design
    =================================== */
 
@@ -330,6 +301,10 @@
   .splash-title {
     font-size: 2.5rem;
     letter-spacing: 0.2em;
+  }
+
+  .splash-title-img {
+    max-width: 300px;
   }
 
   .logo-container img,
@@ -343,19 +318,24 @@
     font-size: 1.1rem;
   }
 
-  .sun {
+  .sun-glow-container {
     width: 160px;
     height: 160px;
   }
 
-  .lotus-container {
-    width: 320px;
-    height: 320px;
+  .sun-glow {
+    width: 160px;
+    height: 160px;
   }
 
-  .lotus-petal {
-    width: 50px;
-    height: 110px;
+  .sun-logo-wrapper {
+    width: 100px;
+    height: 100px;
+  }
+
+  .sun-logo-fallback {
+    width: 100px;
+    height: 100px;
   }
 }
 
@@ -364,6 +344,10 @@
   .splash-title {
     font-size: 2rem;
     letter-spacing: 0.15em;
+  }
+
+  .splash-title-img {
+    max-width: 250px;
   }
 
   .logo-container img,
@@ -377,19 +361,24 @@
     font-size: 1rem;
   }
 
-  .sun {
+  .sun-glow-container {
     width: 140px;
     height: 140px;
   }
 
-  .lotus-container {
-    width: 280px;
-    height: 280px;
+  .sun-glow {
+    width: 140px;
+    height: 140px;
   }
 
-  .lotus-petal {
-    width: 40px;
-    height: 90px;
+  .sun-logo-wrapper {
+    width: 85px;
+    height: 85px;
+  }
+
+  .sun-logo-fallback {
+    width: 85px;
+    height: 85px;
   }
 
   .skip-button {
@@ -410,6 +399,10 @@
     font-size: 1.6rem;
   }
 
+  .splash-title-img {
+    max-width: 200px;
+  }
+
   .logo-container img,
   .logo-placeholder {
     width: 100px;
@@ -421,19 +414,24 @@
     font-size: 0.9rem;
   }
 
-  .sun {
+  .sun-glow-container {
     width: 120px;
     height: 120px;
   }
 
-  .lotus-container {
-    width: 240px;
-    height: 240px;
+  .sun-glow {
+    width: 120px;
+    height: 120px;
   }
 
-  .lotus-petal {
-    width: 35px;
-    height: 75px;
+  .sun-logo-wrapper {
+    width: 70px;
+    height: 70px;
+  }
+
+  .sun-logo-fallback {
+    width: 70px;
+    height: 70px;
   }
 }
 
@@ -441,6 +439,10 @@
 @media (max-height: 600px) and (orientation: landscape) {
   .splash-title {
     font-size: 1.8rem;
+  }
+
+  .splash-title-img {
+    max-width: 220px;
   }
 
   .logo-container img,
@@ -467,17 +469,18 @@
 
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
-  .sun,
-  .lotus-petal,
-  .splash-title,
-  .logo-container,
-  .splash-credit,
+  .sun-glow-container,
+  .sun-glow,
+  .sun-logo,
+  .sun-logo-fallback,
+  .reveal-container,
   .skip-button {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
 
-  .splash-screen {
-    animation: screenFadeOut 0.3s ease-out 2s forwards;
+  .reveal-container {
+    opacity: 1;
+    animation: none;
   }
 }
