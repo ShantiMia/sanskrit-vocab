@@ -123,11 +123,11 @@
 @keyframes glowPulse {
   0%, 100% {
     filter: drop-shadow(0 4px 12px rgba(255, 140, 50, 0.6));
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
   50% {
     filter: drop-shadow(0 8px 24px rgba(255, 140, 50, 1));
-    transform: translate(-50%, -50%) scale(1.05);
+    transform: scale(1.05);
   }
 }
 
@@ -137,11 +137,13 @@
     width: 200px;
     height: 200px;
     opacity: 1;
+    transform: translate(-50%, -50%);
   }
   100% {
     width: 300vw;
     height: 300vh;
     opacity: 1;
+    transform: translate(-50%, -50%);
     background: radial-gradient(circle, var(--sun-orange-light) 0%, var(--sun-orange-dark) 30%, var(--splash-bg-medium) 70%);
   }
 }
