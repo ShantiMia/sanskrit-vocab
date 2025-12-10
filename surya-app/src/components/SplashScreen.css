@@ -81,6 +81,9 @@
   align-items: center;
   justify-content: center;
   z-index: 2;
+  animation:
+    glowPulse 3s ease-in-out 5s infinite,
+    logoFadeOut 0.5s ease-in 8.5s forwards;
 }
 
 .sun-logo {
@@ -88,7 +91,6 @@
   height: 100%;
   object-fit: contain;
   filter: drop-shadow(0 4px 12px rgba(255, 140, 50, 0.6));
-  animation: glowPulse 3s ease-in-out 5s infinite;
 }
 
 /* Fallback sun if image doesn't exist */
@@ -101,7 +103,6 @@
     0 0 20px rgba(212, 175, 55, 0.8),
     0 0 40px rgba(212, 175, 55, 0.6),
     inset 0 0 20px rgba(255, 255, 255, 0.3);
-  animation: glowPulse 3s ease-in-out 5s infinite;
 }
 
 /* Animation: Rise from bottom to center (0-5s) */
@@ -144,7 +145,19 @@
     height: 300vh;
     opacity: 1;
     transform: translate(-50%, -50%);
-    background: radial-gradient(circle, var(--sun-orange-light) 0%, var(--sun-orange-dark) 30%, var(--splash-bg-medium) 70%);
+    background: radial-gradient(circle, var(--gold-light) 0%, var(--gold-rich) 30%, var(--splash-bg-medium) 70%);
+  }
+}
+
+/* Animation: Logo fade out before obliteration completes */
+@keyframes logoFadeOut {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%);
   }
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import './WelcomeScreen.css';
 import AboutModal from './AboutModal';
+import yssLogoImg from '../assets/images/yss_logo_256.png';
 
 const WelcomeScreen = ({ onSelectSection }) => {
   const [showAbout, setShowAbout] = useState(false);
@@ -10,6 +11,18 @@ const WelcomeScreen = ({ onSelectSection }) => {
       <div className="welcome-container">
         {/* Main Title */}
         <header className="welcome-header">
+          {/* YSS Logo */}
+          <div className="welcome-logo-container">
+            <img
+              src={yssLogoImg}
+              alt="Yoga Satya Svarupe"
+              className="welcome-logo"
+              onError={(e) => {
+                // Hide if image doesn't load
+                e.target.style.display = 'none';
+              }}
+            />
+          </div>
           <h1 className="app-title embossed-text">SURYA</h1>
           <p className="app-subtitle">The Twelve Names of the Sun</p>
         </header>

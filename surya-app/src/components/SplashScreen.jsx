@@ -4,14 +4,24 @@ import './SplashScreen.css';
 // Import images from assets folder
 // Note: These will use fallbacks if images don't exist or fail to load
 import yssLogoImg from '../assets/images/yss_logo_256.png';
-// Uncomment these lines once the images are added:
-// import suryaTitleImg from '../assets/images/surya_title.png';
-// import sunLogoImg from '../assets/images/sun_logo.png';
 
-// Temporary: use placeholder paths until images are added
+// Sun logo import - will show image if it exists, otherwise fallback to styled circle
+let sunLogoImg = null;
+let suryaTitleImg = null;
+try {
+  sunLogoImg = require('../assets/images/sun_logo.png');
+} catch (e) {
+  console.log('Sun logo not found, using fallback');
+}
+try {
+  suryaTitleImg = require('../assets/images/surya_title.png');
+} catch (e) {
+  console.log('Surya title image not found, using text fallback');
+}
+
 const yssLogo = yssLogoImg;
-const suryaTitle = null; // Will use text fallback
-const sunLogo = null; // Will use circle fallback
+const suryaTitle = suryaTitleImg;
+const sunLogo = sunLogoImg;
 
 const SplashScreen = ({ onComplete }) => {
   const handleComplete = () => {

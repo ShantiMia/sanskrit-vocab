@@ -26,6 +26,26 @@
 /* Header */
 .welcome-header {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* YSS Logo */
+.welcome-logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.welcome-logo {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  filter: drop-shadow(0 6px 12px rgba(212, 175, 55, 0.6))
+          drop-shadow(0 3px 6px rgba(212, 175, 55, 0.8));
 }
 
 .app-title {
@@ -34,7 +54,7 @@
   font-weight: 700;
   letter-spacing: 0.3em;
   color: var(--gold-deep);
-  margin-bottom: 1rem;
+  margin: 0;
   text-shadow:
     2px 2px 4px rgba(255, 255, 255, 0.8),
     -1px -1px 2px rgba(184, 134, 11, 0.3),
@@ -187,6 +207,11 @@
 
 /* Tablet */
 @media (max-width: 768px) {
+  .welcome-logo {
+    width: 100px;
+    height: 100px;
+  }
+
   .app-title {
     font-size: 4rem;
     letter-spacing: 0.2em;
@@ -230,6 +255,11 @@
 
   .welcome-container {
     gap: 2rem;
+  }
+
+  .welcome-logo {
+    width: 90px;
+    height: 90px;
   }
 
   .app-title {
@@ -283,6 +313,11 @@
 
 /* Extra Small Devices */
 @media (max-width: 360px) {
+  .welcome-logo {
+    width: 80px;
+    height: 80px;
+  }
+
   .app-title {
     font-size: 2.5rem;
   }
@@ -316,6 +351,19 @@
 
   .welcome-container {
     gap: 1.5rem;
+  }
+
+  .welcome-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .welcome-header {
+    gap: 0.75rem;
+  }
+
+  .welcome-logo-container {
+    margin-bottom: 0.5rem;
   }
 
   .app-title {
