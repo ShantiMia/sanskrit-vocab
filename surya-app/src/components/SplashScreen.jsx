@@ -2,26 +2,9 @@ import React, { useEffect } from 'react';
 import './SplashScreen.css';
 
 // Import images from assets folder
-// Note: These will use fallbacks if images don't exist or fail to load
-import yssLogoImg from '../assets/images/yss_logo_256.png';
-
-// Sun logo import - will show image if it exists, otherwise fallback to styled circle
-let sunLogoImg = null;
-let suryaTitleImg = null;
-try {
-  sunLogoImg = require('../assets/images/sun_logo.png');
-} catch (e) {
-  console.log('Sun logo not found, using fallback');
-}
-try {
-  suryaTitleImg = require('../assets/images/surya_title.png');
-} catch (e) {
-  console.log('Surya title image not found, using text fallback');
-}
-
-const yssLogo = yssLogoImg;
-const suryaTitle = suryaTitleImg;
-const sunLogo = sunLogoImg;
+import sunLogo from '../assets/images/sun_logo.png';
+import suryaTitle from '../assets/images/surya_title.png';
+import yssLogo from '../assets/images/yss_logo_256.png';
 
 const SplashScreen = ({ onComplete }) => {
   const handleComplete = () => {
@@ -55,13 +38,6 @@ const SplashScreen = ({ onComplete }) => {
             src={sunLogo}
             alt="Sun"
             className="sun-logo"
-            onError={(e) => {
-              // Fallback to styled div if image doesn't exist
-              e.target.style.display = 'none';
-              const fallback = document.createElement('div');
-              fallback.className = 'sun-logo-fallback';
-              e.target.parentElement.appendChild(fallback);
-            }}
           />
         </div>
       </div>
@@ -72,25 +48,12 @@ const SplashScreen = ({ onComplete }) => {
           src={suryaTitle}
           alt="SURYA"
           className="splash-title-img"
-          onError={(e) => {
-            // Fallback to text if image doesn't exist
-            e.target.style.display = 'none';
-            const fallback = document.createElement('h1');
-            fallback.className = 'splash-title';
-            fallback.textContent = 'SURYA';
-            e.target.parentElement.insertBefore(fallback, e.target);
-          }}
         />
 
         <div className="logo-container">
           <img
             src={yssLogo}
             alt="Yoga Satya Svarupe"
-            onError={(e) => {
-              // Fallback if image doesn't exist
-              e.target.style.display = 'none';
-              e.target.parentElement.innerHTML = '<div class="logo-placeholder">YSS</div>';
-            }}
           />
         </div>
 
