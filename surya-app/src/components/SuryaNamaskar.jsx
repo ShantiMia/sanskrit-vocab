@@ -129,9 +129,10 @@ const PostureImage = ({ imagePath, name }) => {
 const SuryaNamaskar = ({ onBack }) => {
   // State management
   const [screen, setScreen] = useState('config'); // 'config' | 'practice' | 'complete'
-  const [currentPosture, setCurrentPosture] = useState(0); // 0-11
+  const [currentPosture, setCurrentPosture] = useState(0); // 0-23 (24 postures per round)
   const [currentRound, setCurrentRound] = useState(1);
   const [totalRounds, setTotalRounds] = useState(3);
+  const [customRounds, setCustomRounds] = useState('');
   const [secondsPerPose, setSecondsPerPose] = useState(5);
   const [timeRemaining, setTimeRemaining] = useState(5);
   const [isPaused, setIsPaused] = useState(false);
@@ -156,12 +157,12 @@ const SuryaNamaskar = ({ onBack }) => {
 
   // Navigation handlers
   const handleNext = () => {
-    if (currentPosture < 11) {
-      // Move to next posture in current round
+    if (currentPosture < 23) {
+      // Move to next posture in current round (24 postures total)
       setCurrentPosture(prev => prev + 1);
       setTimeRemaining(secondsPerPose);
     } else {
-      // Completed all 12 postures
+      // Completed all 24 postures (one full round)
       if (currentRound < totalRounds) {
         // Start next round
         setCurrentRound(prev => prev + 1);
@@ -182,9 +183,9 @@ const SuryaNamaskar = ({ onBack }) => {
     } else {
       // At first posture
       if (currentRound > 1) {
-        // Go to last posture of previous round
+        // Go to last posture of previous round (posture 23)
         setCurrentRound(prev => prev - 1);
-        setCurrentPosture(11);
+        setCurrentPosture(23);
         setTimeRemaining(secondsPerPose);
       }
     }
@@ -214,6 +215,20 @@ const SuryaNamaskar = ({ onBack }) => {
     if (onBack) {
       onBack();
     }
+  };
+
+  const handleCustomRoundsChange = (e) => {
+    const value = e.target.value;
+    setCustomRounds(value);
+    const numValue = parseInt(value, 10);
+    if (numValue >= 1 && numValue <= 108) {
+      setTotalRounds(numValue);
+    }
+  };
+
+  const handleRoundButtonClick = (rounds) => {
+    setTotalRounds(rounds);
+    setCustomRounds(''); // Clear custom input when selecting a preset
   };
 
   // Configuration Screen
@@ -247,15 +262,28 @@ const SuryaNamaskar = ({ onBack }) => {
           <div className="config-section">
             <h2 className="config-label">Number of Rounds:</h2>
             <div className="config-options">
-              {[1, 3, 5, 7, 12].map(rounds => (
+              {[1, 3, 6, 12, 27, 54, 108].map(rounds => (
                 <button
                   key={rounds}
-                  className={`config-option embossed-button ${totalRounds === rounds ? 'selected' : ''}`}
-                  onClick={() => setTotalRounds(rounds)}
+                  className={`config-option embossed-button ${totalRounds === rounds && !customRounds ? 'selected' : ''}`}
+                  onClick={() => handleRoundButtonClick(rounds)}
                 >
                   {rounds}
                 </button>
               ))}
+            </div>
+            <div className="custom-rounds-input">
+              <label htmlFor="custom-rounds">Or enter custom (1-108):</label>
+              <input
+                id="custom-rounds"
+                type="number"
+                min="1"
+                max="108"
+                value={customRounds}
+                onChange={handleCustomRoundsChange}
+                placeholder="Enter rounds"
+                className="custom-input"
+              />
             </div>
           </div>
 
@@ -269,14 +297,15 @@ const SuryaNamaskar = ({ onBack }) => {
 
   // Completion Screen
   if (screen === 'complete') {
+    const totalPostures = totalRounds * 24;
     return (
       <div className="surya-namaskar-container">
         <div className="completion-screen">
           <div className="completion-stars">✨ 🌅 ✨</div>
           <h1 className="completion-title embossed-text">Practice Complete!</h1>
           <p className="completion-message">
-            You completed {totalRounds} round{totalRounds > 1 ? 's' : ''} of<br />
-            Surya Namaskar
+            You completed {totalRounds} round{totalRounds > 1 ? 's' : ''} of Surya Namaskar<br />
+            ({totalPostures} total postures)
           </p>
           <div className="completion-buttons">
             <button className="embossed-button" onClick={handleReturnHome}>
@@ -292,7 +321,9 @@ const SuryaNamaskar = ({ onBack }) => {
   }
 
   // Practice Screen
-  const currentPostureData = postureData[currentPosture];
+  // Map currentPosture (0-23) to the 12-pose cycle
+  const poseIndex = currentPosture % 12;
+  const currentPostureData = postureData[poseIndex];
 
   return (
     <div className="surya-namaskar-container">
@@ -301,7 +332,7 @@ const SuryaNamaskar = ({ onBack }) => {
           ← Back
         </button>
         <div className="progress-indicator embossed-text">
-          Round {currentRound} of {totalRounds} • Pose {currentPosture + 1}/12
+          Round {currentRound} of {totalRounds} • Pose {currentPosture + 1}/24
         </div>
       </header>
 
