@@ -14,11 +14,11 @@ const SplashScreen = ({ onComplete }) => {
     }
   };
 
-  // Auto-complete after 13 seconds
+  // Auto-complete after 14 seconds (reveal starts at 10s, fully visible at 11s, stays 3s)
   useEffect(() => {
     const timer = setTimeout(() => {
       handleComplete();
-    }, 13000);
+    }, 14000);
 
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps

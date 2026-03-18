@@ -31,6 +31,7 @@
   justify-content: center;
   overflow: hidden;
   z-index: 9999;
+  animation: backgroundToWhite 2s ease-in 8s forwards;
 }
 
 /* ===================================
@@ -283,6 +284,16 @@
   }
 }
 
+/* Animation: Background transition to cream after obliteration (8-10s) */
+@keyframes backgroundToWhite {
+  from {
+    background: linear-gradient(180deg, var(--splash-bg-dark) 0%, var(--splash-bg-medium) 100%);
+  }
+  to {
+    background: #fbf3de;
+  }
+}
+
 /* ===================================
    Skip Button
    =================================== */
@@ -423,6 +434,12 @@
   }
 
   .reveal-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 90vw;
     gap: 0.75rem;
   }
 }

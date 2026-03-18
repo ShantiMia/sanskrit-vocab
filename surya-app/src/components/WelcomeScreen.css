@@ -41,8 +41,8 @@
 }
 
 .welcome-logo {
-  width: 120px;
-  height: 120px;
+  width: 200px;
+  height: 200px;
   object-fit: contain;
   filter: drop-shadow(0 6px 12px rgba(212, 175, 55, 0.6))
           drop-shadow(0 3px 6px rgba(212, 175, 55, 0.8));
@@ -72,7 +72,9 @@
 /* Main Menu */
 .main-menu {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 2rem;
   width: 100%;
   max-width: 600px;
@@ -80,19 +82,20 @@
 
 .menu-button {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
   background: linear-gradient(145deg, var(--gold-light), var(--gold-rich));
   box-shadow:
     6px 6px 12px rgba(184, 134, 11, 0.3),
     -6px -6px 12px rgba(255, 255, 255, 0.6);
   border: none;
   border-radius: 25px;
-  padding: 2rem 2.5rem;
+  padding: 1.5rem 1rem;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-align: left;
-  width: 100%;
+  text-align: center;
+  width: 220px;
 }
 
 .menu-button:hover {
@@ -118,7 +121,8 @@
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  flex: 1;
+  align-items: center;
+  text-align: center;
 }
 
 .menu-text strong {
@@ -207,23 +211,8 @@
 
 /* Tablet */
 @media (max-width: 768px) {
-  .welcome-logo {
-    width: 100px;
-    height: 100px;
-  }
-
-  .app-title {
-    font-size: 4rem;
-    letter-spacing: 0.2em;
-  }
-
   .app-subtitle {
     font-size: 1.3rem;
-  }
-
-  .menu-button {
-    padding: 1.5rem 2rem;
-    gap: 1.5rem;
   }
 
   .menu-icon {
@@ -258,12 +247,12 @@
   }
 
   .welcome-logo {
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
   }
 
   .app-title {
-    font-size: 3rem;
+    font-size: 2.5rem;
     letter-spacing: 0.15em;
   }
 
@@ -271,9 +260,24 @@
     font-size: 1.1rem;
   }
 
+  .main-menu {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .menu-button {
+    flex-direction: row;
+    text-align: left;
+    width: 100%;
+    max-width: 240px;
     padding: 1.25rem 1.5rem;
     gap: 1rem;
+  }
+
+  .menu-text {
+    align-items: flex-start;
+    text-align: left;
   }
 
   .menu-icon {
@@ -375,14 +379,11 @@
   }
 
   .main-menu {
-    flex-direction: row;
     gap: 1rem;
   }
 
   .menu-button {
     padding: 1rem;
-    flex-direction: column;
-    text-align: center;
     gap: 0.5rem;
   }
 
